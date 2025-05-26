@@ -1,7 +1,9 @@
 #ifndef BUFFER_H
 #define	BUFFER_H
+#include <stdbool.h>
 
 #define BUFFER_SIZE 32
+#define VALUE_WHEN_EMPTY 0
 
 typedef struct {
     int *in;
@@ -21,7 +23,7 @@ void bufferWrite(Buffer *buffer, int data);
 
 int bufferRead(Buffer *buffer);
 
-int bufferIsEmpty(Buffer *buffer);
+bool bufferIsEmpty(Buffer *buffer);
 
 #ifdef TEST
 void testBuffer();
