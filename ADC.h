@@ -8,9 +8,12 @@
 #ifndef ADC_H
 #define	ADC_H
 
-#define ADC_MAX 1023
+#define ADC_MAX 4095
 #define ADC_MIN 0
 #define VREF 5
+
+#define MAXVOLTAGE = 5;
+#define MINVOLTAGE = 0;
 
 /**
  * 

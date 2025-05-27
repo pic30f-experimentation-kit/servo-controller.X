@@ -4,12 +4,12 @@
 #include "transformations.h"
 
 
-int capturePulse = 0;
+int pulseFromADC = 0;
 
 void __attribute__((interrupt)) _T2Interrupt(void) {
     IFS0bits.T2IF = 0; //Clear interrupt flag
     
-    OC2RS = capturePulse; //Store into DC buffer register
+    OC2RS = pulseFromADC; //Store into DC buffer register
 }
 
 void initializationPWM() {    
@@ -47,12 +47,37 @@ void initializationPWM() {
 
 /**
  * 
- *
  */
-void servoSetPositionFromADCBuffer () {
+void servoSetPositionFromADC (int ADC) {
     
-    int ADC = bufferRead (&CapturesBuffer);
-    capturePulse = ADCtoPulseWidth (ADC);
+    pulseFromADC = ADCtoPulseWidth (ADC);
     
-    //OC2RS = pulse; ¿por qué no esto?
+    //OC2RS = pulseFromADC; ¿por qué no esto?
 }
+
+#ifdef TEST
+
+void testSetToMaxPulse() {
+    
+    Buffer testBuffer;
+    
+    //Write to buffer maximum value
+    bufferWrite(&testBuffer, 4095); //Puedo incluir ADC_MAX de ADC.h
+    
+    int ADCcapture = bufferRead(&testBuffer);
+    
+    //Read from buffer and set servo position
+    servoSetPositionFromADC(ADCcapture);
+  
+    //Check that the output pulse is the max value possible
+    assertEquals("PWM_POS_FROM_ADC", PULSE_MAX, pulseFromADC);
+}
+
+/**
+ * Set of tests for PWM
+ */
+void testPWM() {
+    testSetToMaxPulse();
+}
+
+#endif

@@ -10,10 +10,11 @@
 
 #define SCALE 1
 #define PWM_PERIOD 4594/SCALE
-#define PWM_MIDDLE_POSITION 1459/SCALE
+#define PWM_MIDDLE_POSITION 344/SCALE
 
-#define PULSE_MAX 1000
-#define PULSE_MIN 0
+#define PULSE_MAX 460  //For +90º with 256 prescale
+#define PULSE_CERO 344 //For 0º   with 256 prescale
+#define PULSE_MIN 230  //For -90º with 256 prescale
 
 /**
  * 
@@ -30,7 +31,7 @@ void initializationPWM();
  * @param position
  * @return 
  */
-void servoSetPositionFromADCBuffer (int position);
+void servoSetPositionFromADC (int ADC);
 
 #endif	/* PWM_H */
 

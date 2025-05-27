@@ -11,7 +11,7 @@
 
 #include "buffer.h"  
 
-extern Buffer CapturesBuffer; //Defined in main
+extern Buffer capturesBuffer; //Defined in main
 
 
 #endif	/* SHARED_H */

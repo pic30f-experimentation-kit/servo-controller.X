@@ -3,11 +3,9 @@
 #include "shared.h"
 #include "transformations.h"
 
-#define MAXVOLTAGE = 5;
-#define MINVOLTAGE = 0;
 
 
-int capture_ADC = 0;
+int captureADC = 0;
 
 
 void initializationADC() {
@@ -56,15 +54,21 @@ void __attribute__((interrupt, no_auto_psv)) _ADCInterrupt(void) {
     // Averages all available input captures, to remove noise:
     unsigned int average = 0;
     volatile unsigned int *adcptr = &ADCBUF0;
-    for(int n = 0; n < 16; n++) {
+    for (int n = 0; n < 16; n++) {
         average += *adcptr;
         adcptr++;
     }
-    average >>= 4;
+    average >>= 4; //Divide by 16
     
     // Place a breakpoint inside the conditional section to stop
     // the program every time the stimulus changes.
-    if (average != capture_ADC) {
-        bufferWrite( &CapturesBuffer, average);
+    if (average != captureADC) {
+        bufferWrite (&capturesBuffer, average);
     }
 }
+
+#ifdef TEST
+
+
+
+#endif

@@ -2,7 +2,7 @@
 #include "PWM.h"
 
 //DeltaPulse / DeltaADC
-float ratio = (float)(PULSE_MAX - PULSE_MIN) / (ADC_MAX - ADC_MIN);
+const float ratio = (float)(PULSE_MAX - PULSE_MIN) / (ADC_MAX - ADC_MIN);
 
 /*
 int PositiontoPulseWidth (int Position) {
@@ -19,8 +19,10 @@ int ADCtoPosition (int ADCValue) {
 }
 */
 
-/*
+/**
  * 
+ * @param ADCValue - output value from ADC module
+ * @return integer representing the pulse Width for a PWM module
  */
 int ADCtoPulseWidth (int ADCValue) {
     

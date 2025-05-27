@@ -21,7 +21,7 @@
 #ifndef TEST
 
 
-Buffer CapturesBuffer; //Buffer that stores output values of ADC converter
+Buffer capturesBuffer; //Buffer that stores output values of ADC converter
 
 /*
  * 
@@ -34,19 +34,20 @@ int main(void) {
    initializationADC();
     
    //Initialization of variables
-   bufferInitialize(&CapturesBuffer);
+   bufferInitialize(&capturesBuffer);
    
    int capture = 0;
 
    for(;;) {
         
        //ADC module is capturing data and writing it in the buffer
-       //While we have not read the last data that was written in the buffer
+       //While the last data that was written in the buffer has not been read,
+       //read it and set servo position accordingly
        //
-        while(!bufferIsEmpty(&CapturesBuffer))
+        while(!bufferIsEmpty(&capturesBuffer))
         {
-            capture = bufferRead (&CapturesBuffer);
-            servoSetPositionFromADCBuffer (capture);
+            capture = bufferRead (&capturesBuffer);
+            servoSetPositionFromADC (capture);
         }
     }
     
