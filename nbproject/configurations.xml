@@ -6,6 +6,9 @@
                    projectFiles="true">
       <itemPath>buffer.h</itemPath>
       <itemPath>test.h</itemPath>
+      <itemPath>ADC.h</itemPath>
+      <itemPath>PWM.h</itemPath>
+      <itemPath>transformations.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -22,6 +25,9 @@
       <itemPath>main.c</itemPath>
       <itemPath>buffer.c</itemPath>
       <itemPath>test.c</itemPath>
+      <itemPath>ADC.c</itemPath>
+      <itemPath>PWM.c</itemPath>
+      <itemPath>transformations.c</itemPath>
     </logicalFolder>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
