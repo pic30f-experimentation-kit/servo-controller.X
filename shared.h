@@ -8,11 +8,9 @@
 #ifndef SHARED_H
 #define	SHARED_H
 
-
 #include "buffer.h"  
 
 extern Buffer capturesBuffer; //Defined in main
-
 
 #endif	/* SHARED_H */
 

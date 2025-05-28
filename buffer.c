@@ -136,7 +136,7 @@ void test_buffer_is_empty() {
     
     //Write and Read a value
     bufferWrite (&buffer,FirstValue);
-    int ReadValue = bufferRead(&buffer);
+    bufferRead(&buffer);
     
     //Read again with no new value written after last read
     assertEquals("BUFF_EMPTY", VALUE_WHEN_EMPTY, bufferRead(&buffer));
@@ -151,7 +151,6 @@ void test_buffer_is_circular() {
     
     int Value = 0;
     int TestValue = 40;
-    int ReadValue = 0;
     
     //Create the buffer
     Buffer buffer;
@@ -164,7 +163,7 @@ void test_buffer_is_circular() {
         
         Value++;
         //Read the Written Value so as to advance "in pointer" 
-        ReadValue = bufferRead (&buffer);
+        bufferRead (&buffer);
     }
     
     //Add one more value (that should be stored in the first position again)
