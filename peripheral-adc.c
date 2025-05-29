@@ -1,12 +1,28 @@
 #include <xc.h>
-#include "ADC.h"
+#include "peripheral-adc.h"
 #include "shared.h"
-#include "transformations.h"
 
+static int captureADC = 0;
 
+void __attribute__((interrupt, no_auto_psv)) _ADCInterrupt(void) {
+    // Reset the interruption flag:
+    IFS0bits.ADIF = 0;
 
-int captureADC = 0;
-
+    // Averages all available input captures, to remove noise:
+    unsigned int average = 0;
+    volatile unsigned int *adcptr = &ADCBUF0;
+    for (int n = 0; n < 16; n++) {
+        average += *adcptr;
+        adcptr++;
+    }
+    average >>= 4; //Divide by 16
+    
+    // Place a breakpoint inside the conditional section to stop
+    // the program every time the stimulus changes.
+    if (average != captureADC) {
+        bufferWrite (&capturesBuffer, average);
+    }
+}
 
 void initializationADC() {
     // Configure the A/D module
@@ -47,25 +63,6 @@ void initializationADC() {
     IEC0bits.ADIE = 1; // Enable interrupts for A/D module
 }
 
-void __attribute__((interrupt, no_auto_psv)) _ADCInterrupt(void) {
-    // Reset the interruption flag:
-    IFS0bits.ADIF = 0;
-
-    // Averages all available input captures, to remove noise:
-    unsigned int average = 0;
-    volatile unsigned int *adcptr = &ADCBUF0;
-    for (int n = 0; n < 16; n++) {
-        average += *adcptr;
-        adcptr++;
-    }
-    average >>= 4; //Divide by 16
-    
-    // Place a breakpoint inside the conditional section to stop
-    // the program every time the stimulus changes.
-    if (average != captureADC) {
-        bufferWrite (&capturesBuffer, average);
-    }
-}
 
 #ifdef TEST
 
