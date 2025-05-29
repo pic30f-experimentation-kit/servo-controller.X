@@ -10,7 +10,7 @@
 
 // In real conditions it should be 1. 
 // Set the scale to 50 or 100 to use MPLABX simulator's logic analyzer
-#define SCALE 1
+#define SCALE 100
 
 // At selected pre-scaler and Fosc...
 #define PWM_PERIOD               14739/SCALE  // ... this is 4.0ms
