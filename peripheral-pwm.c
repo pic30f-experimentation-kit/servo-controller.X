@@ -1,15 +1,10 @@
 #include <xc.h>
-#include "PWM.h"
-#include "shared.h"
-#include "transformations.h"
+#include "peripheral-pwm.h"
+#include "servo.h"
 
-
-int pulseFromADC = 0;
-
-void __attribute__((interrupt)) _T2Interrupt(void) {
-    IFS0bits.T2IF = 0; //Clear interrupt flag
-    
-    OC2RS = pulseFromADC; //Store into DC buffer register
+void __attribute__((interrupt, no_auto_psv)) _T2Interrupt(void) {
+    IFS0bits.T2IF = 0; //Clear interrupt flag    
+    OC2RS = servoGetPWMDutyCycle(); //Store into DC buffer register
 }
 
 void initializationPWM() {    
@@ -25,8 +20,8 @@ void initializationPWM() {
     
     //Set PWM period. PWMT = (Pry+1)* Tcy * Prescale
     //Tcy = 17ns. No prescale. --> PRY = 1176469 --> necesito un prescaler
-    //prescaler 1:256 (cada 256 ciclos de reloj, timer cuenta 1 vez) --> PRY = 4594
-    T2CONbits.TCKPS = 3; //prescaler 256
+    //prescaler 1:8 (cada 8 ciclos de reloj, timer cuenta 1 vez) --> PRY = 14739
+    T2CONbits.TCKPS = 1; //prescaler 8
         
     //Period 20ms - 50Hz. 1ms = -90ª. 1.5ms = 0ª. 2ms = 90ª
     //Values to configure the Timer2
@@ -44,40 +39,3 @@ void initializationPWM() {
     IEC0bits.T2IE = 1; //Enable interrupts for timer 2
     T2CONbits.TON = 1; //Start Timer 2           
 }
-
-/**
- * 
- */
-void servoSetPositionFromADC (int ADC) {
-    
-    pulseFromADC = ADCtoPulseWidth (ADC);
-    
-    //OC2RS = pulseFromADC; ¿por qué no esto?
-}
-
-#ifdef TEST
-
-void testSetToMaxPulse() {
-    
-    Buffer testBuffer;
-    
-    //Write to buffer maximum value
-    bufferWrite(&testBuffer, 4095); //Puedo incluir ADC_MAX de ADC.h
-    
-    int ADCcapture = bufferRead(&testBuffer);
-    
-    //Read from buffer and set servo position
-    servoSetPositionFromADC(ADCcapture);
-  
-    //Check that the output pulse is the max value possible
-    assertEquals("PWM_POS_FROM_ADC", PULSE_MAX, pulseFromADC);
-}
-
-/**
- * Set of tests for PWM
- */
-void testPWM() {
-    testSetToMaxPulse();
-}
-
-#endif

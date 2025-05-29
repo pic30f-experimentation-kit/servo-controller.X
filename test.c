@@ -3,14 +3,27 @@
 #include <xc.h>
 #include "test.h"
 
+/** Number of passed tests, since initialization. */
 int testsPassed;
+
+/** Number of failed tests, since initialization. */
 int testsFailed;
 
+/**
+ * Sends a char to the UART.
+ * This method is called by <code>printf</code> behind the scenes.
+ * If a terminal is connected to RX / TX, or simulator is configured to output
+ * UART 1, then text is displayed.
+ * @param data Ascii code of the char to display.
+ */
 void putch(char data) {
    while( ! U1STAbits.UTXBF);
    U1TXREG = data; 
 }
 
+/**
+ * Initializes UART for asynchronous output.
+ */
 void initializationUART() {
     // Initialize the UxBRG register for the appropriate baud rate.
     U1BRG = 95;
@@ -43,6 +56,34 @@ void assertEquals(const char *testId, int expected, int actual) {
         testsFailed++;
     } else {
         testsPassed++;
+    }
+}
+
+void assertWithinBounds(const char *testId, int actual, int min, int max) {
+    if ( (actual < min) || (actual > max) ) {
+        printf("Test %s: actual [%d] outside bounds: [%d] to [%d]\r\n",
+                testId, actual, min, max);
+        testsFailed ++;
+    } else {
+        testsPassed ++;
+    }
+}
+
+void assertNotZero(const char *testId, int actual) {
+    if (actual == 0) {
+        printf("Test %s: actual is zero, but it should not.\r\n", testId);
+        testsFailed ++;
+    } else {
+        testsPassed ++;
+    }
+}
+
+void assertZero(const char *testId, int actual) {
+    if (actual != 0) {
+        printf("Test %s: actual is %d, but it should be zero.\r\n", testId, actual);
+        testsFailed ++;
+    } else {
+        testsPassed ++;
     }
 }
 
