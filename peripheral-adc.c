@@ -39,10 +39,10 @@ void initializationADC() {
     ADCON1bits.SSRC = 7;  // Use internal timer.
     
     // -> Determine how inputs will be allocated to the S/H channel
-    TRISBbits.TRISB6 = 1; // AN6/RB6 is configured as input.
-    ADPCFGbits.PCFG6 = 0; // AN6/RB6 is configured as analog.
+    TRISBbits.TRISB3 = 1; // AN6/RB6 is configured as input.
+    ADPCFGbits.PCFG3 = 0; // AN6/RB6 is configured as analog.
     ADCHSbits.CH0NA = 0;  // Negative input is VRef-
-    ADCHSbits.CH0SA = 6;  // Sample analog data from AN6.
+    ADCHSbits.CH0SA = 3;  // Sample analog data from AN6.
     
     // -> Select how conversion results are presented in the buffer
     ADCON1bits.FORM = 0;  // Positive integer.
