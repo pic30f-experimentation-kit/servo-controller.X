@@ -44,7 +44,7 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>PICkit3PlatformTool</platformTool>
         <languageToolchain>XCDSC</languageToolchain>
-        <languageToolchainVersion>3.21</languageToolchainVersion>
+        <languageToolchainVersion>3.30</languageToolchainVersion>
         <platform>4</platform>
       </toolsSet>
       <packs>
@@ -1279,7 +1279,7 @@
         <targetPluginBoard></targetPluginBoard>
         <platformTool>Simulator</platformTool>
         <languageToolchain>XCDSC</languageToolchain>
-        <languageToolchainVersion>3.21</languageToolchainVersion>
+        <languageToolchainVersion>3.30</languageToolchainVersion>
         <platform>4</platform>
       </toolsSet>
       <packs>
